@@ -33,8 +33,9 @@ class AddTodo extends Component {
             margin="normal"
             onChange={this.handleChange}
             value={this.state.content}
+            data-testid="new-item-textfield"
           />
-          <Button variant="contained" color="primary" type="submit">
+          <Button data-testid="new-item-button" variant="contained" color="primary" type="submit">
             Add Todo
           </Button>
         </form>
