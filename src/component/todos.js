@@ -1,37 +1,45 @@
-import React from "react";
 import "../component/todos.css";
+import React from 'react';
+import { Card, CardContent, Grid, ListItemButton, Checkbox } from '@mui/material';
 
-// 1. This component formats and returns the list of todos.
-// 2. Treat the question mark like an if statement.
-// If the todos array has items in the list [todos.length], we want to return the list
-// Else, return a message saying "You have no todo's left"
-// 3. The map function is called to assign each array item with a key
-// 4. Think of lines 14-23 as a loop. For each todo in the todo list, we want to give the list item
-// a key, and it's own card shown in the UI
 const Todos = ({ todos }) => {
-    const todoList = todos.length ? (
-      todos.map((todo) => {
-        return (
-          <Grid key={todo.id}>
-            <Card>
-              {/* Remember, we set the local state of this todo item when the user submits the form in 
-              AddTodo.js. All we need to do is return the todo list item */}
-              <CardContent>
-                <span style={{ padding: "50px" }}>add todo content</span>
-              </CardContent>
-            </Card>
-          </Grid>
-        );
-      })
-    ) : (
-      <p>{/*Enter your message here if todo list is empty*/}</p>
+  const handleToggle = (id) => {
+    // Update the state of todos to toggle the completed status of the clicked todo
+    const updatedTodos = todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
-    // Lastly, return the todoList constant that we created above to show all of the items on the screen.
-    return (
-      <div className="todoCollection" style={{ padding: "10px" }}>
-        {/*call todo list here*/}
-      </div>
-    );
+  };
+
+  const todoList = todos.length ? (
+    todos.map(todo => (
+      <Grid item xs={12} key={todo.id}>
+        <Card>
+          <ListItemButton onClick={() => handleToggle(todo.id)}>
+            <Checkbox checked={todo.completed} />
+            <CardContent>
+              <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+                {todo.content}
+              </span>
+            </CardContent>
+          </ListItemButton>
+        </Card>
+      </Grid>
+    ))
+  ) : (
+    <Grid item xs={12}>
+      <Card>
+        <CardContent>
+          <p>You have no todos left!</p>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+
+  return (
+    <Grid container spacing={2}>
+      {todoList}
+    </Grid>
+  );
 };
-  
+
 export default Todos;
